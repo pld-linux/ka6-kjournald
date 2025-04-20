@@ -1,0 +1,101 @@
+#
+# Conditional build:
+%bcond_with	tests		# build with tests
+%define		kdeappsver	25.04.0
+%define		kframever	6.8
+%define		qtver		6.8
+%define		kaname		kjournald
+Summary:	kjournald
+Name:		ka6-%{kaname}
+Version:	25.04.0
+Release:	1
+License:	GPL v2+/LGPL v2.1+
+Group:		X11/Applications/Games
+Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
+# Source0-md5:	72b60348bfdcc4e202e4ef44439bdfb9
+URL:		http://www.kde.org/
+BuildRequires:	Qt6Concurrent-devel
+BuildRequires:	Qt6Core-devel >= %{qtver}
+BuildRequires:	Qt6Gui-devel >= 5.11.1
+BuildRequires:	Qt6Network-devel
+BuildRequires:	Qt6PrintSupport-devel
+BuildRequires:	Qt6Test-devel
+BuildRequires:	Qt6Widgets-devel
+BuildRequires:	gettext-tools
+BuildRequires:	kf6-extra-cmake-modules >= %{kframever}
+BuildRequires:	kf6-karchive-devel >= %{kframever}
+BuildRequires:	kf6-kcompletion-devel >= %{kframever}
+BuildRequires:	kf6-kconfig-devel >= %{kframever}
+BuildRequires:	kf6-kcoreaddons-devel >= %{kframever}
+BuildRequires:	kf6-kcrash-devel >= %{kframever}
+BuildRequires:	kf6-kdoctools-devel >= %{kframever}
+BuildRequires:	kf6-ki18n-devel >= %{kframever}
+BuildRequires:	kf6-kiconthemes-devel >= %{kframever}
+BuildRequires:	kf6-kio-devel >= %{kframever}
+BuildRequires:	kf6-kitemviews-devel >= %{kframever}
+BuildRequires:	kf6-ktextwidgets-devel >= %{kframever}
+BuildRequires:	kf6-kwidgetsaddons-devel >= %{kframever}
+BuildRequires:	kf6-kxmlgui-devel >= %{kframever}
+BuildRequires:	ninja
+BuildRequires:	pkgconfig
+BuildRequires:	qt6-build >= %{qtver}
+BuildRequires:	rpmbuild(macros) >= 1.164
+BuildRequires:	shared-mime-info
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
+BuildRequires:	zlib-devel
+Obsoletes:	ka5-%{kaname} < %{version}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%description
+This project aims to provide an abstraction of the systemd's journald
+API in terms of QAbstractItemModel classes. The main purpose is to
+ease the integration of journald into Qt based applications (both QML
+and QtWidget).
+
+Additional to the library, the project provides a reference
+implementation of the API, called `kjournaldbrowser`. Even though that
+application provides a powerful journal database reader, we aim to do
+a clear split between reuseable library and application logic.
+
+%prep
+%setup -q -n %{kaname}-%{version}
+
+%build
+%cmake \
+	-B build \
+	-G Ninja \
+	%{!?with_tests:-DBUILD_TESTING=OFF} \
+	-DKDE_INSTALL_DOCBUNDLEDIR=%{_kdedocdir} \
+	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+%ninja_build -C build
+
+%if %{with tests}
+ctest --test-dir build
+%endif
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+%ninja_install -C build
+rm -rf $RPM_BUILD_ROOT%{_kdedocdir}/{ko,zh_CN}
+
+%find_lang %{kaname} --all-name --with-kde --with-qm
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files -f %{kaname}.lang
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/kjournaldbrowser
+%{_libdir}/libkjournald.so
+%ghost %{_libdir}/libkjournald.so.0
+%attr(755,root,root) %{_libdir}/libkjournald.so.*.*
+%dir %{_libdir}/qt6/qml/org/kde/kjournald
+%{_libdir}/qt6/qml/org/kde/kjournald/kde-qmlmodule.version
+%{_libdir}/qt6/qml/org/kde/kjournald/kjournald.qmltypes
+%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kjournald/libkjournaldplugin.so
+%{_libdir}/qt6/qml/org/kde/kjournald/qmldir
+%{_desktopdir}/org.kde.kjournaldbrowser.desktop
+%{_datadir}/metainfo/org.kde.kjournaldbrowser.appdata.xml
+%{_datadir}/qlogging-categories6/kjournald.categories
