@@ -8,7 +8,7 @@
 Summary:	kjournald
 Name:		ka6-%{kaname}
 Version:	25.04.0
-Release:	1
+Release:	2
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Applications/Games
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
@@ -80,6 +80,9 @@ ctest --test-dir build
 rm -rf $RPM_BUILD_ROOT
 %ninja_install -C build
 rm -rf $RPM_BUILD_ROOT%{_kdedocdir}/{ko,zh_CN}
+
+# unsupported locale (glibc-2.41)
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ie
 
 %find_lang %{kaname} --all-name --with-kde --with-qm
 
