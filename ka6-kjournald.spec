@@ -1,18 +1,18 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	25.08.2
+%define		kdeappsver	25.08.3
 %define		kframever	6.8
 %define		qtver		6.8
 %define		kaname		kjournald
 Summary:	kjournald
 Name:		ka6-%{kaname}
-Version:	25.08.2
-Release:	2
+Version:	25.08.3
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Applications/Games
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	63e6ba8ff3bf4eccb83acb6bd438b1be
+# Source0-md5:	8e37777afcca1c0ffa78562c254f24db
 URL:		http://www.kde.org/
 BuildRequires:	Qt6Concurrent-devel
 BuildRequires:	Qt6Core-devel >= %{qtver}
@@ -104,9 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kjournaldbrowser
 %{_libdir}/libkjournald.so
 %ghost %{_libdir}/libkjournald.so.0
-%attr(755,root,root) %{_libdir}/libkjournald.so.*.*
+%{_libdir}/libkjournald.so.*.*
 %dir %{_libdir}/qt6/qml/org/kde/kjournald
-%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kjournald/kjournaldplugin.so
+%{_libdir}/qt6/qml/org/kde/kjournald/kjournaldplugin.so
 %{_libdir}/qt6/qml/org/kde/kjournald/kde-qmlmodule.version
 %{_libdir}/qt6/qml/org/kde/kjournald/kjournald.qmltypes
 %{_libdir}/qt6/qml/org/kde/kjournald/qmldir
