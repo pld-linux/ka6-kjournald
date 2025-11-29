@@ -8,7 +8,7 @@
 Summary:	kjournald
 Name:		ka6-%{kaname}
 Version:	25.08.3
-Release:	1
+Release:	2
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Applications/Games
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
