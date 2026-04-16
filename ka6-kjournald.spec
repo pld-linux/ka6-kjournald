@@ -1,18 +1,18 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	25.12.3
+%define		kdeappsver	26.04.0
 %define		kframever	6.8
 %define		qtver		6.8
 %define		kaname		kjournald
 Summary:	kjournald
 Name:		ka6-%{kaname}
-Version:	25.12.3
-Release:	2
+Version:	26.04.0
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Applications/Games
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	55a9c070cd435a88a09673db987a632f
+# Source0-md5:	8b50657d6cb982635cd094a53731341b
 URL:		http://www.kde.org/
 BuildRequires:	Qt6Concurrent-devel
 BuildRequires:	Qt6Core-devel >= %{qtver}
