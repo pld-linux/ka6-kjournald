@@ -60,6 +60,14 @@ implementation of the API, called `kjournaldbrowser`. Even though that
 application provides a powerful journal database reader, we aim to do
 a clear split between reuseable library and application logic.
 
+%description -l pl.UTF-8
+Celem tego projektu jest dostarczenie abstrakcji API systemd journald
+jako klas QAbstractItemModel, żeby ułatwić integrację journald z
+aplikacjami Qt (zarówno opartymi na QML, jak i QtWidget). Dodatkowo
+projekt zawiera referencyjną implementację tego API,
+`kjournaldbrowser`. Chociaż aplkacja dostarcza zaawansowany czytnik
+bazy journal, to staramy się rozdzielić bibliotekę i logikę aplikacji.
+
 %prep
 %setup -q -n %{kaname}-%{version}
 
